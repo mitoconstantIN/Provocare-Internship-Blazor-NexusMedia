@@ -1,0 +1,57 @@
+﻿@using ProvocareKioskBlazor.Models
+<h3>AllCards</h3>
+@inject ProvocareKioskBlazor.Models.Catalog Catalog
+
+
+@foreach (var category in Catalog.ProductCategories)
+{
+    <h3 style="color:red; font-weight: bold">@category.ProductCategoryName</h3>
+    <div class="product-list">
+        @foreach (var product in category.Products)
+        {
+            <div class="product-card" @onclick="(e =>{IncrementCount(product); UpdateProductPrice(product);})" style="@cardStyle">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body" style="background-color: @(product.Count > 0 ? "#FF0000" : "#FFFFFF"); ">
+                        <h5 class="card-title">@product.Name</h5>
+                        <p class="card-text">@product.Description</p>
+                        <p class="card-price">@product.Price</p>
+
+                        @if (product.Count != 0)
+                        {
+                            <button class="btn btn-primary" @onclick="(e => { DecrementCount(product); UpdateProductPrice(product); })">-</button>
+                            @product.Count
+                            <button class="btn btn-primary" @onclick="(e => {UpdateProductPrice(product);})">+</button>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+ 
+
+@code {
+
+    string cardStyle = "";
+
+    private void IncrementCount(Product product)
+    {
+
+        product.Count++;
+        cardStyle = "animation: heartbeat 0.3s ;";
+    }
+    void DecrementCount(Product product)
+    {
+
+        product.Count++;
+        cardStyle = "animation: heartbeat 0.3s ;";
+    }
+    public void UpdateProductPrice(Product product)
+    {
+        
+        product.Price = product.Count * product.Price;
+        
+    }
+}
+
+

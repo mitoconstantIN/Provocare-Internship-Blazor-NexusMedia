@@ -1,0 +1,56 @@
+﻿@rendermode InteractiveServer
+
+<div class="product-card" @onclick="(e =>{IncrementCount(); UpdatePrice();})" style="@cardStyle">
+    <div class="card" style="width : 18rem;">
+        <div class="card-body" style="background-color: @(currentCount > 0 ? "#FF0000" : "#FFFFFF"); ">
+            <h5 class="card-title">@productName</h5>
+            <p class="card-text">@productDescription</p>
+            <p class="card-price">@currentPrice</p>
+
+            @if (currentCount != 0)
+            {
+                <button class="btn btn-primary" @onclick="(e => { DecrementCount(); UpdatePrice(); })">-</button>
+                @currentCount
+                <button class="btn btn-primary" @onclick="UpdatePrice">+</button>
+            }
+        </div>
+    </div>
+</div>
+
+
+@code {
+    public string imageUrl = "https://ibb.co/Yf434xM";
+    public string productName = "Quatro Stagioni";
+    public string productDescription = "Pizza Italiana impartita in 4 sectiuni, fiecare reprezand un anotimp diferit.";
+    public int productPrice = 22;
+
+    public int currentCount = 0, currentPrice = 0;
+
+    string cardStyle = "";
+
+
+
+    public void IncrementCount()
+    {
+        currentCount++;
+        cardStyle = "animation: heartbeat 0.3s ;";
+        Console.WriteLine("Am incrementat.");
+    }
+    public void DecrementCount()
+    {
+        currentCount -= 2;
+        cardStyle = "animation: heartbeat 0.3s;";
+    }
+    public void UpdatePrice()
+    {
+        currentPrice = currentCount * productPrice;
+        cardStyle = "animation: heartbeat 0.6s;";
+    }
+
+    string isAddedToCart()
+    {
+        if (currentCount > 0) return "#FF0000";
+        else return "#FFFFFF";
+    }
+
+}
